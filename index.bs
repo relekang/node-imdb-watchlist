@@ -1,0 +1,21 @@
+import request
+import bluebird as Promise
+import cheerio
+
+export (userId) ->
+    return new Promise((resolve, reject) ->
+        url = 'http://www.imdb.com/user/#{userId}/watchlist'
+        request(url, (err, res, body) ->
+            if err or res.statusCode != 200
+                reject(err or res.statusCode)
+
+            dom = cheerio.load(body)
+            movies = []
+            for link in dom('.list .title a')
+                movies.push({
+                    imdbId: link.attribs.href.split('/')[2]
+                    title: link.children[0].data
+                })
+            resolve(movies)
+        )
+    )

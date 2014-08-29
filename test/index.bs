@@ -1,0 +1,58 @@
+import should
+import chai: expect
+import assert
+import nock
+
+import ../index as imdbWatchlist
+
+describe('imdbWatchlist', () ->
+    scope = null
+    beforeEach(() ->
+        scope = nock('http://www.imdb.com')
+            .get('/user/test/watchlist')
+            .reply(200, '
+            <!DOCTYPE html><html><head></head><body>
+            <div class="list">
+                <div><div class="title"><a href="/title/tt0905372/?ref_=wl_li_tt">The Thing</a></div> </div>
+                <div><div class="title"><a href="/title/tt0119137/?ref_=wl_li_tt">Flubber</a></div> </div>
+                <div><div class="title"><a href="/title/tt0905372/?ref_=wl_li_tt">The Hobbit: The Battle of Five Armies</a></div> </div>
+            </div>
+            </body>
+            ')
+    )
+
+    it('should be a function', () ->
+        expect(imdbWatchlist instanceof Function).to.be.true
+    )
+
+    it('should resolve with a list', (done) ->
+        imdbWatchlist('test').then((movies) ->
+            expect(movies instanceof Array).to.be.true
+            expect(movies.length).to.equal(3)
+            done()
+        )
+    )
+
+    it('should resolve with a list with title, imdb-id', (done) ->
+        imdbWatchlist('test').then((movies) ->
+            expect(movies[0].imdbId).to.equal('tt0905372')
+            expect(movies[0].title).to.equal('The Thing')
+            expect(movies[1].imdbId).to.equal('tt0119137')
+            expect(movies[1].title).to.equal('Flubber')
+            expect(movies[2].imdbId).to.equal('tt0905372')
+            expect(movies[2].title).to.equal('The Hobbit: The Battle of Five Armies')
+            done()
+        )
+    )
+
+    it('should reject error', (done) ->
+        scope = nock('http://www.imdb.com')
+            .get('/user/fail/watchlist')
+            .reply(400, 'An error occured')
+
+        imdbWatchlist('fail').then(null, (error) ->
+            expect(error).to.equal(400)
+            done()
+        )
+    )
+)
