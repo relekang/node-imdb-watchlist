@@ -1,0 +1,39 @@
+{
+  "name": "imdb-watchlist",
+  "version": "0.0.0",
+  "description": "Get to watch list from imdb",
+  "main": "index.js",
+  "scripts": {
+    "test": "make test"
+  },
+  "files": [
+    "index.js",
+    "README.md",
+    "LICENSE"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/relekang/node-imdb-watchlist.git"
+  },
+  "keywords": [],
+  "author": "Rolf Erik Lekang <me@rolflekang.com> (http://rolflekang.com/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/relekang/node-imdb-watchlist/issues"
+  },
+  "homepage": "https://github.com/relekang/node-imdb-watchlist",
+  "dependencies": {
+    "bluebird": "^2.3.2",
+    "cheerio": "^0.17.0",
+    "request": "^2.40.0"
+  },
+  "devDependencies": {
+    "bailey": "0.0.13",
+    "chai": "^1.9.1",
+    "coveralls": "^2.11.1",
+    "istanbul": "^0.3.0",
+    "mocha": "^1.21.4",
+    "nock": "^0.45.0",
+    "should": "^4.0.4"
+  }
+}
