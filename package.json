@@ -1,6 +1,6 @@
 {
   "name": "imdb-watchlist",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Get to watch list from imdb",
   "main": "index.js",
   "scripts": {
